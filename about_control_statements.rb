@@ -8,7 +8,7 @@ class AboutControlStatements < Neo::Koan
     else
       result = :false_value
     end
-    assert_equal __, result
+    assert_equal :true_value, result
   end
 
   def test_if_then_statements
@@ -16,7 +16,7 @@ class AboutControlStatements < Neo::Koan
     if true
       result = :true_value
     end
-    assert_equal __, result
+    assert_equal :true_value, result
   end
 
   def test_if_statements_return_values
@@ -25,14 +25,14 @@ class AboutControlStatements < Neo::Koan
             else
               :false_value
             end
-    assert_equal __, value
+    assert_equal :true_value, value
 
     value = if false
               :true_value
             else
               :false_value
             end
-    assert_equal __, value
+    assert_equal :false_value, value
 
     # NOTE: Actually, EVERY statement in Ruby will return a value, not
     # just if statements.
@@ -42,27 +42,29 @@ class AboutControlStatements < Neo::Koan
     value = if false
               :true_value
             end
-    assert_equal __, value
+    assert_equal nil, value
   end
 
   def test_condition_operators
-    assert_equal __, (true ? :true_value : :false_value)
-    assert_equal __, (false ? :true_value : :false_value)
+    assert_equal :true_value, (true ? :true_value : :false_value)  
+    assert_equal :false_value, (false ? :true_value : :false_value)
   end
-
+  # Gotcha: same as saying ? is kind of like if and : is like else
   def test_if_statement_modifiers
     result = :default_value
     result = :true_value if true
 
-    assert_equal __, result
+    assert_equal :true_value, result
   end
+
+  # Gotcha if can be used after a statement as well
 
   def test_unless_statement
     result = :default_value
     unless false    # same as saying 'if !false', which evaluates as 'if true'
       result = :false_value
     end
-    assert_equal __, result
+    assert_equal :false_value, result
   end
 
   def test_unless_statement_evaluate_true
@@ -70,14 +72,14 @@ class AboutControlStatements < Neo::Koan
     unless true    # same as saying 'if !true', which evaluates as 'if false'
       result = :true_value
     end
-    assert_equal __, result
+    assert_equal :default_value, result
   end
 
   def test_unless_statement_modifier
     result = :default_value
     result = :false_value unless false
 
-    assert_equal __, result
+    assert_equal :false_value, result
   end
 
   def test_while_statement
@@ -87,7 +89,7 @@ class AboutControlStatements < Neo::Koan
       result = result * i
       i += 1
     end
-    assert_equal __, result
+    assert_equal 3628800, result
   end
 
   def test_break_statement
@@ -98,8 +100,9 @@ class AboutControlStatements < Neo::Koan
       result = result * i
       i += 1
     end
-    assert_equal __, result
+    assert_equal 3628800, result
   end
+# Gotcha: break unless can be used to end a loop and move on in the code
 
   def test_break_statement_returns_values
     i = 1
@@ -108,8 +111,9 @@ class AboutControlStatements < Neo::Koan
       i += 1
     end
 
-    assert_equal __, result
+    assert_equal 2, result
   end
+# Gotcha: return i returning the value of i, not a boolean value as I would have expected
 
   def test_next_statement
     i = 0
@@ -119,8 +123,9 @@ class AboutControlStatements < Neo::Koan
       next if (i % 2) == 0
       result << i
     end
-    assert_equal __, result
+    assert_equal [1, 3, 5, 7, 9], result
   end
+# Gotcha: next if, skips the code enclosed by the if statement if it evaluates as true
 
   def test_for_statement
     array = ["fish", "and", "chips"]
@@ -128,15 +133,23 @@ class AboutControlStatements < Neo::Koan
     for item in array
       result << item.upcase
     end
-    assert_equal [__, __, __], result
+    assert_equal ["FISH", "AND", "CHIPS"], result
   end
+
+  # Gotcha: << adds items to an aleady defined array. the #upcase method puts everything in ALL CAPS
 
   def test_times_statement
     sum = 0
     10.times do
       sum += 1
     end
-    assert_equal __, sum
+    assert_equal 10, sum
   end
+
+  # Gotcha: 10.times do repeats the loop 10 times, but I assume it can be x times and 10 can be replaced by a variable
+
+
+
+
 
 end
