@@ -15,16 +15,15 @@
 #
 def triangle(a, b, c)
   # WRITE THIS CODE
-	if a == b && b == c 
-		return :equilateral
-	elsif a != b && a != c && b != c
-		return :scalene
-	else
-		return :isosceles
-	end
 
-
+	raise TriangleError, "Sides must be greater than zero in length" if [a, b, c].min <= 0 
+	x, y, z = [a,b,c].sort
+	raise TriangleError, "Them sides ain't conducive to makin' a triangle " if x + y <= z 
+	[:equilateral, :isosceles, :scalene].fetch([a, b, c].uniq.size-1)
 end
+
+# clever code from stackoverflow(http://stackoverflow.com/a/11361502/2302781)
+# I did not know abotu fetch or unique methods. That is clever
 
 # Error class used in part 2.  No need to change this code.
 class TriangleError < StandardError
