@@ -42,10 +42,11 @@ def score(dice)
       else
         score += 100 * num    # If another digit, add 100 times the digit to the score
       end
-      dice - [num, num, num]  # Get rid of these three values because they've been included in the score
+        3.times { dice.slice!(dice.index(num)) } # Get rid of these three values because they've been included in the score
+      break
+        # NOTE: slice removes element of array defined by index passed to it
     end
   end
-
   score += 100 * dice.count(1) + 50 * dice.count(5)  #Add the remainder of the score from non-triple 1's or 5's
 
 end
