@@ -31,7 +31,26 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 def score(dice)
   # You need to write this method
+  
+  score = 0                   # Set initial score equal to zero
+  pos_digits = (1..6).to_a    # Create array of all possible dice values
+
+  pos_digits.each do |num|    # Iterate through all digits
+    if dice.count(num) >= 3
+      if num == 1             # If 3 ones, add 1,000 to score
+        score += 1000
+      else
+        score += 100 * num    # If another digit, add 100 times the digit to the score
+      end
+      dice - [num, num, num]  # Get rid of these three values because they've been included in the score
+    end
+  end
+
+  score += 100 * dice.count(1) + 50 * dice.count(5)  #Add the remainder of the score from non-triple 1's or 5's
+
 end
+
+
 
 class AboutScoringProject < Neo::Koan
   def test_score_of_an_empty_list_is_zero
