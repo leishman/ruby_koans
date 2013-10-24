@@ -24,23 +24,24 @@ class AboutInheritance < Neo::Koan
   end
 
   def test_subclasses_have_the_parent_as_an_ancestor
-    assert_equal __, Chihuahua.ancestors.include?(Dog)
+    assert_equal true, Chihuahua.ancestors.include?(Dog)
   end
 
   def test_all_classes_ultimately_inherit_from_object
-    assert_equal __, Chihuahua.ancestors.include?(Object)
+    assert_equal true, Chihuahua.ancestors.include?(Object)
   end
 
   def test_subclasses_inherit_behavior_from_parent_class
     chico = Chihuahua.new("Chico")
-    assert_equal __, chico.name
+    assert_equal "Chico", chico.name
   end
+  # Note attr_reader names are accessible by a method automatically
 
   def test_subclasses_add_new_behavior
     chico = Chihuahua.new("Chico")
-    assert_equal __, chico.wag
+    assert_equal :happy, chico.wag
 
-    assert_raise(___) do
+    assert_raise(NoMethodError) do
       fido = Dog.new("Fido")
       fido.wag
     end
@@ -48,11 +49,13 @@ class AboutInheritance < Neo::Koan
 
   def test_subclasses_can_modify_existing_behavior
     chico = Chihuahua.new("Chico")
-    assert_equal __, chico.bark
+    assert_equal "yip", chico.bark
 
     fido = Dog.new("Fido")
-    assert_equal __, fido.bark
+    assert_equal "WOOF", fido.bark
   end
+
+  # Here the Chihuahua subclass overwrote the inherited Dog::bark method
 
   # ------------------------------------------------------------------
 
@@ -64,8 +67,10 @@ class AboutInheritance < Neo::Koan
 
   def test_subclasses_can_invoke_parent_behavior_via_super
     ralph = BullDog.new("Ralph")
-    assert_equal __, ralph.bark
+    assert_equal "WOOF, GROWL", ralph.bark
   end
+
+  # Super took the output of the inherited method and added more to it (this could be useful)
 
   # ------------------------------------------------------------------
 
@@ -77,7 +82,7 @@ class AboutInheritance < Neo::Koan
 
   def test_super_does_not_work_cross_method
     george = GreatDane.new("George")
-    assert_raise(___) do
+    assert_raise(NoMethodError) do
       george.growl
     end
   end
