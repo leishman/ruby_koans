@@ -12,7 +12,7 @@ class AboutModules < Neo::Koan
   end
 
   def test_cant_instantiate_modules
-    assert_raise(___) do
+    assert_raise(NoMethodError) do
       Nameable.new
     end
   end
@@ -39,7 +39,7 @@ class AboutModules < Neo::Koan
 
   def test_normal_methods_are_available_in_the_object
     fido = Dog.new
-    assert_equal __, fido.bark
+    assert_equal "WOOF", fido.bark
   end
 
   def test_module_methods_are_also_available_in_the_object
@@ -49,15 +49,21 @@ class AboutModules < Neo::Koan
     end
   end
 
+  # A module is exactly, what it says. It's a module of code that you can tack onto a class. It's not in itself a class.
+
   def test_module_methods_can_affect_instance_variables_in_the_object
     fido = Dog.new
-    assert_equal __, fido.name
+    assert_equal "Fido", fido.name
     fido.set_name("Rover")
-    assert_equal __, fido.name
+    assert_equal "Rover", fido.name
   end
+
+  # The set_name method in the module changed the instance variable in the class
 
   def test_classes_can_override_module_methods
     fido = Dog.new
-    assert_equal __, fido.here
+    assert_equal :in_object, fido.here
   end
 end
+
+# The Dog.here method overwrote the Nameable module method
